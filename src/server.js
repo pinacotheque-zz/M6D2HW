@@ -3,12 +3,13 @@ import listEndpoints from "express-list-endpoints"
 import cors from "cors"
 import mongoose from "mongoose"
 
-import usersRoutes from "./services/users/index.js"
+import usersRoutes from "./services/blogs/index.js"
 import { badRequestErrorHandler, notFoundErrorHandler, catchAllErrorHandler } from "./errorHandlers.js"
 
 const server = express()
 
-const port = process.env.PORT || 3008
+const { PORT, MONGO_CONNECTION_STRING } = process.env;
+
 
 // ****************** MIDDLEWARES ****************************
 
@@ -26,11 +27,17 @@ server.use(catchAllErrorHandler)
 
 console.table(listEndpoints(server))
 
-mongoose
-  .connect(process.env.MONGO_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
-  .then(() =>
-    server.listen(port, () => {
-      console.log("Server running on port ", port)
-    })
-  )
-  .catch(err => console.log(err))
+server.listen(PORT, async () => {
+    try {
+      await mongoose.connect(MONGO_CONNECTION_STRING, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      console.log(`Server is running on ${PORT}  and connected to db`);
+    } catch (error) {
+      console.log("Db connection is failed ", error);
+    }
+  });
+  server.on("error", (error) =>
+  console.log(`Server is not running due to : ${error}`)
+);
