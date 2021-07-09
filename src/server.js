@@ -3,7 +3,7 @@ import listEndpoints from "express-list-endpoints"
 import cors from "cors"
 import mongoose from "mongoose"
 
-import usersRoutes from "./services/blogs/index.js"
+import blogsRouter from "./services/blogs/index.js"
 import { badRequestErrorHandler, notFoundErrorHandler, catchAllErrorHandler } from "./errorHandlers.js"
 
 const server = express()
@@ -17,7 +17,7 @@ server.use(express.json())
 
 // ****************** ROUTES *******************************
 
-server.use("/users", usersRoutes)
+server.use("/blogs", blogsRouter)
 
 // ****************** ERROR HANDLERS ***********************
 
