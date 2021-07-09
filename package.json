@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "express-list-endpoints": "^5.0.0",
     "mongoose": "^5.13.2",
+    "query-to-mongo": "^0.10.1",
     "uniqid": "^5.3.0"
   },
   "devDependencies": {
